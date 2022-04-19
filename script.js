@@ -1,4 +1,5 @@
 import { setupGround, updateGround } from './ground.js'
+import { setupDino, updateDino } from './dino.js'
 
 const worldWidth = 100
 const worldHeight = 30
@@ -25,6 +26,7 @@ function update(time) {
     const delta = time - lastTime
 
     updateGround(delta, speedScale)
+    updateDino(delta, speedScale)
     updateSpeedScale(delta)
     updateScore(delta)
 
@@ -46,6 +48,7 @@ function handleStart() {
     speedScale = 1
     score = 0
     setupGround()
+    setupDino()
     startScreenElement.classList.add("hide")
     window.requestAnimationFrame(update)
 }
