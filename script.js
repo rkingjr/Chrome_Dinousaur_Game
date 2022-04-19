@@ -2,14 +2,18 @@ import { setupGround, updateGround } from './ground.js'
 
 const worldWidth = 100
 const worldHeight = 30
+const speedScaleIncrease = 0.00001
 
 const worldElement = document.querySelector('[data-world]')
+const scoreElement = document.querySelector('[data-score]')
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
 document.addEventListener("keydown", handleStart, { once: true })
 
 let lastTime
+let speedScale
+let score
 function update(time) {
     if (lastTime == null) {
         lastTime = time
@@ -18,14 +22,27 @@ function update(time) {
     }
     const delta = time - lastTime
 
-    updateGround(delta, 1)
+    updateGround(delta, speedScale)
+    updateSpeedScale(delta)
+    updateScore(delta)
 
     lastTime = time
     window.requestAnimationFrame(update)
 }
 
+function updateSpeedScale(delta) {
+    speedScale += delta * speedScaleIncrease
+}
+
+function updateScore(delta) {
+    score += delta * 0.01
+    scoreElement.textContent = Math.floor(score)
+}
+
 function handleStart() {
     lastTime = null
+    speedScale = 1
+    score = 0
     setupGround()
     window.requestAnimationFrame(update)
 }
