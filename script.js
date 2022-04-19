@@ -1,4 +1,4 @@
-import {updateGround} from './ground' 
+import { updateGround } from './ground.js'
 
 const worldWidth = 100
 const worldHeight = 30
