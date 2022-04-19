@@ -25,8 +25,12 @@ export function updateDino(delta, speedScale) {
     handleJump(delta)
 }
 
-export function getDinoRect() {
+export function getDinoRects() {
     return dinoElement.getBoundingClientRect()
+}
+
+export function setDinoLose() {
+    dinoElement.src = "./images/dino-lose.png"
 }
 
 function handleRun(delta, speedScale) {

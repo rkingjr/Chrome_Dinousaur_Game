@@ -1,6 +1,6 @@
 import { setupGround, updateGround } from './ground.js'
-import { setupDino, updateDino } from './dino.js'
-import { setupCactus, updateCactus } from './cactus.js'
+import { setupDino, updateDino, getDinoRects, setDinoLose } from './dino.js'
+import { setupCactus, updateCactus, getCactusRects } from './cactus.js'
 
 const worldWidth = 100
 const worldHeight = 30
@@ -31,6 +31,7 @@ function update(time) {
     updateCactus(delta, speedScale)
     updateSpeedScale(delta)
     updateScore(delta)
+    if (checkLose()) return handleLose()
 
     lastTime = time
     window.requestAnimationFrame(update)
@@ -38,6 +39,20 @@ function update(time) {
 
 function updateSpeedScale(delta) {
     speedScale += delta * speedScaleIncrease
+}
+
+function checkLose() {
+    const dinoRect = getDinoRects()
+    return getCactusRects().some(rect => isCollision(rect, dinoRect))
+}
+
+function isCollision(rect1, rect2) {
+    return (
+        rect1.left < rect2.right &&
+        rect1.top < rect2.bottom &&
+        rect1.right > rect2.left &&
+        rect1.bottom > rect2.top
+    )
 }
 
 function updateScore(delta) {
@@ -54,6 +69,13 @@ function handleStart() {
     setupCactus()
     startScreenElement.classList.add("hide")
     window.requestAnimationFrame(update)
+}
+
+function handleLose() {
+    setDinoLose()
+    setTimeout(() => {
+        document.addEventListener("keydown", handleStart, { once: true})
+    }, 100)
 }
 
 function setPixelToWorldScale() {
