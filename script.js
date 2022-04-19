@@ -1,10 +1,28 @@
+import {updateGround} from './ground' 
+
 const worldWidth = 100
 const worldHeight = 30
 
-const worldElem = document.querySelector('[data-world]')
+const worldElement = document.querySelector('[data-world]')
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
+
+let lastTime
+function update(time) {
+    if (lastTime == null) {
+        lastTime = time
+        window.requestAnimationFrame(update)
+        return
+    }
+    const delta = time - lastTime
+
+    updateGround(delta)
+
+    lastTime = time
+    window.requestAnimationFrame(update)
+}
+window.requestAnimationFrame(update)
 
 function setPixelToWorldScale() {
     let worldToPixelScale
@@ -13,8 +31,8 @@ function setPixelToWorldScale() {
     } else {
         worldToPixelScale = window.innerHeight / worldHeight
     }
-    console.log(worldToPixelScale)
+    console.log(worldToPixelScale )
 
-    worldElem.style.width = `${worldWidth * worldToPixelScale}px`
-    worldElem.style.height = `${worldHeight * worldToPixelScale}px`
+    worldElement.style.width = `${worldWidth * worldToPixelScale}px`
+    worldElement.style.height = `${worldHeight * worldToPixelScale}px`
 }
