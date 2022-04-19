@@ -6,6 +6,8 @@ const speedScaleIncrease = 0.00001
 
 const worldElement = document.querySelector('[data-world]')
 const scoreElement = document.querySelector('[data-score]')
+const startScreenElement = document.querySelector('[data-start-screen]')
+
 
 setPixelToWorldScale()
 window.addEventListener("resize", setPixelToWorldScale)
@@ -44,6 +46,7 @@ function handleStart() {
     speedScale = 1
     score = 0
     setupGround()
+    startScreenElement.classList.add("hide")
     window.requestAnimationFrame(update)
 }
 
